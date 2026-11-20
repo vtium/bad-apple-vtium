@@ -133,20 +133,20 @@ cue() {
 : "${KITTY:=auto}"
 : "${FX_SECONDS:=10}"            # --fx runs this long
 : "${SHOWCASE_LABEL:=}"          # names the build on the title card
-: "${SHOWCASE_CACHE:=${HOME:-/tmp}/.cache/kmscon-showcase}"
+: "${SHOWCASE_CACHE:=${HOME:-/tmp}/.cache/bad-apple-vtium}"
 
-# The scroller of act 7: what the fork supports, one feature per entry of
+# The scroller of act 7: what vtium supports, one feature per entry of
 # BANNER_FEATURES (separated by ;), each followed by the next emoji of
 # BANNER_EMOJI. Add a feature here when it lands.
 : "${BANNER_FEATURES:=styled and coloured underlines;strike;grapheme clusters;colour emoji;cell-exact box drawing;sixel;kitty graphics}"
 : "${BANNER_EMOJI:=〰️ ✂️ 🐈‍⬛ 🎨 🧱 🖼️ 🐱}"
-: "${BANNER_INTRO:=kmscon, the fork ✨ now with}"
+: "${BANNER_INTRO:=vtium, on the Linux console ✨ now with}"
 : "${BANNER_OUTRO:=greetings to ZUN, Alstroemeria Records, nomico and Anira 🍎 libtsm, mpv, ffmpeg, libcaca, libsixel and toilet 💾 see you on the console 🖥️}"
 END_TEXT=${END_TEXT:-"Bad Apple!! - original by ZUN (Touhou Project), arrangement by Alstroemeria Records feat. nomico, shadow-art video by Anira"}
 
 # The act table: name, the programs it needs (a trailing ? marks one the
-# act plays without, in a simpler form), what it does, and how it plays on
-# kmscon today. --list and --dry-run print it; act_N runs it.
+# act plays without, in a simpler form), and what it does. --list and
+# --dry-run print it; act_N runs it.
 ACT_NAME=(""
 	"stick figures"
 	"we can do better"
@@ -171,15 +171,7 @@ ACT_WHAT=(""
 	"\"wait a minute... don't we have ... LIBSIXEL?\" typed over the frozen frame"
 	"sixel (DA1 attribute 4): mpv --vo=sixel plays it ${ACT5_SIZE} of the screen's height, sized from the cell size the terminal reports (XTWINOPS 16), it glitches to one channel and tears, and its last frame stays; else a placeholder"
 	"a fire wipe uncovering a stream of CJK text that then fills the screen and blows away, \"hold on, we also have kitty. one sec, feeding the cats\", a crowd of colour cats, then big cat faces in a row in kitty graphics (emoji without), pixel sunglasses dropping onto each, sliding off as act 7 fades in"
-	"kitty graphics (a=q): each frame transmitted once and placed up to three times (kitty.py), one copy in the middle that slides left, then a second and a third sliding out from behind it, until the end card's cue, above a scroller of the fork's features over copper bars; else a placeholder above the scroller; --banner-only: the scroller alone")
-ACT_KMSCON=(""
-	"plays"
-	"plays"
-	"plays"
-	"plays"
-	"plays (sixel, ADR-103 step 3)"
-	"plays"
-	"plays (kitty graphics, ADR-103 step 4c)")
+	"kitty graphics (a=q): each frame transmitted once and placed up to three times (kitty.py), one copy in the middle that slides left, then a second and a third sliding out from behind it, until the end card's cue, above a scroller of vtium's features over copper bars; else a placeholder above the scroller; --banner-only: the scroller alone")
 LAST_ACT=7
 
 # The effects: where each plays, and what it needs. --fx NAME runs one alone.
@@ -204,7 +196,7 @@ die() {
 }
 
 usage() {
-	sed -n '7,8s/^# \{0,1\}//p' "${BASH_SOURCE[0]}" >&2
+	sed -n '6,7s/^# \{0,1\}//p' "${BASH_SOURCE[0]}" >&2
 	exit 2
 }
 
@@ -228,9 +220,9 @@ tool_line() {
 
 list_acts() {
 	local n e name where needs
-	printf '%-3s %-24s %-30s %s\n' act name "needs (? optional)" "on kmscon today"
+	printf '%-3s %-24s %s\n' act name "needs (? optional)"
 	for ((n = 1; n <= LAST_ACT; n++)); do
-		printf '%-3s %-24s %-30s %s\n' "$n" "${ACT_NAME[n]}" "${ACT_NEEDS[n]}" "${ACT_KMSCON[n]}"
+		printf '%-3s %-24s %s\n' "$n" "${ACT_NAME[n]}" "${ACT_NEEDS[n]}"
 	done
 	echo
 	printf '%-10s %-44s %s\n' effect "where it plays" needs
@@ -283,7 +275,6 @@ dry_run() {
 		   echo "  moves: slide ${ACT7_SLIDE_AT}s, copy 2 ${ACT7_COPY2_AT}s, copy 3 ${ACT7_COPY3_AT}s into the act (-1: never); frames by $KITTY_TRANSPORT, $( [ "$KITTY_WIDTH" = 0 ] && echo "a copy's own size" || echo "${KITTY_WIDTH} px wide")"
 		   act7_cue_warnings ;;
 		esac
-		echo "  kmscon today: ${ACT_KMSCON[n]}"
 	done
 	echo
 	echo "effects (--fx NAME):"
@@ -739,7 +730,7 @@ banner() {
 
 title_card() {
 	[ "$TITLE_SECONDS" != 0 ] || return 0
-	fx effect stars --seconds "$TITLE_SECONDS" --title "kmscon" --subtitle "${SHOWCASE_LABEL:-Bad Apple!!}" --font "$BIG_FONT"
+	fx effect stars --seconds "$TITLE_SECONDS" --title "vtium" --subtitle "${SHOWCASE_LABEL:-Bad Apple!!}" --font "$BIG_FONT"
 	clear_screen
 	pause "$ACT_GAP"
 }
@@ -768,7 +759,7 @@ act_2() {
 }
 
 # Act 3 asks the terminal for a real 80x25 grid (xterm's CSI 8 ; rows ; cols
-# t, which kmscon gains with #77) and plays full screen when the size took
+# t, which some terminals ignore) and plays full screen when the size took
 # effect; otherwise, or with ACT3_RESIZE=no, in a framed 80x25 region. A
 # resized screen is put back to its size before act 4, which types over the
 # frozen frame redrawn in its frame.
@@ -900,7 +891,7 @@ shades() {
 	fi
 }
 
-# Act 7: the video in the rows above the scroller, through the fork's own
+# Act 7: the video in the rows above the scroller, through the show's own
 # kitty graphics player (kitty.py): each frame transmitted once and placed up
 # to three times, one copy in the middle until the moves of the cue sheet
 # slide it left and bring out a second and a third. The scroller draws in
@@ -937,7 +928,7 @@ act_7() {
 		# wall clock from the soundtrack's start, and says so.
 		local run=/tmp
 		[ ! -d "${XDG_RUNTIME_DIR:-}" ] || [ ! -w "$XDG_RUNTIME_DIR" ] || run=$XDG_RUNTIME_DIR
-		ipc_dir=$(mktemp -d -p "$run" kmscon-showcase.XXXXXX)
+		ipc_dir=$(mktemp -d -p "$run" bad-apple-vtium.XXXXXX)
 		audio_start "$ACT7_START" "$ACT7_SECONDS" --input-ipc-server="$ipc_dir/mpv.sock" "${fade[@]}"
 		ipc=(--audio-ipc "$ipc_dir/mpv.sock" --audio-started "$audio_started")
 	fi
@@ -960,7 +951,7 @@ act_7() {
 end_card() {
 	[ -t 0 ] || return 0
 	cue_start endcard --loop-file=inf
-	fx endcard --title "kmscon · github.com/aaronsb/kmscon" --text "$END_TEXT"
+	fx endcard --title "vtium · github.com/vtium/vtium" --text "$END_TEXT"
 	cue_stop
 }
 
@@ -991,7 +982,7 @@ run_fx() {
 	case $name in
 	banner) python3 -B "$fx_py" banner --text "$(banner_text)" --rows "$BANNER_ROWS" --font "$BANNER_FONT" \
 		--fps "$BANNER_FPS" --seconds "$FX_SECONDS" --report "$report" || st=$? ;;
-	*) python3 -B "$fx_py" effect "$name" --seconds "$FX_SECONDS" --title kmscon --font "$BIG_FONT" \
+	*) python3 -B "$fx_py" effect "$name" --seconds "$FX_SECONDS" --title vtium --font "$BIG_FONT" \
 		--report "$report" || st=$? ;;
 	esac
 	restore_quietly

@@ -67,8 +67,7 @@ def main():
             return subprocess.run(["bash", script, *args], env=e, capture_output=True, text=True,
                                   timeout=30, stdin=subprocess.DEVNULL, cwd=tmp)
 
-        # --list: one row per act, in order, with what it needs and how it
-        # plays on kmscon today.
+        # --list: one row per act, in order, with what it needs.
         p = run("--list")
         blocks = p.stdout.split("\n\n")
         rows = [l for l in blocks[0].splitlines()[1:] if l.strip()]
@@ -80,11 +79,15 @@ def main():
         # Act 6 falls back to emoji without rsvg-convert.
         check("act 6 lists rsvg-convert as optional", "rsvg-convert?" in needs.get("6", []), repr(needs.get("6")))
         needs = {n: [t.rstrip("?") for t in ts] for n, ts in needs.items()}
-        check("every act plays on kmscon (act 7 through kitty graphics since #169)",
-              all("placeholder" not in l for l in rows), p.stdout)
 
         effects = [l.split()[0] for l in blocks[1].splitlines()[1:] if l.strip()] if len(blocks) > 1 else []
         check("--list names the effects --fx runs", effects == EFFECTS, repr(effects))
+
+        # --help prints both usage lines of the script's header.
+        p = run("--help")
+        usage = [l.split()[:2] for l in p.stderr.splitlines() if l.strip()]
+        check("--help prints both usage lines", p.returncode == 2
+              and usage == [["BAD_APPLE=/path/to/video", "bad-apple.sh"], ["bad-apple.sh", "--list"]], p.stderr)
 
         # Every act in the table has its function.
         fns = subprocess.run(["bash", "-c", 'source "$1"; for n in 1 2 3 4 5 6 7; do declare -F "act_$n" >/dev/null || echo "missing act_$n"; done; echo "$LAST_ACT"', "sh", script],
@@ -718,7 +721,7 @@ def kitty_checks(root):
             kitty.unlink_shm(f"{enc.prefix}{k}")
     finally:
         kitty.SHM_BUDGET = budget
-    stale = f"/dev/shm/kmscon-showcase-{os.getpid()}-1"
+    stale = f"/dev/shm/bad-apple-vtium-{os.getpid()}-1"
     open(stale, "wb").close()
     enc = kitty.Encoder("shm", 4, 4)
     cmd = enc.transmit(kitty.IMAGE_IDS[0], b"\0" * enc.frame_bytes)
@@ -729,12 +732,12 @@ def kitty_checks(root):
     cmd, e = kitty.query("shm")
     e.close()
     check("shm: the probe's object has a name of its own",
-          b"kmscon-showcase-probe-" in base64.b64decode(cmd.rsplit(";", 1)[1][:-2]), cmd)
+          b"bad-apple-vtium-probe-" in base64.b64decode(cmd.rsplit(";", 1)[1][:-2]), cmd)
 
     # The soundtrack's clock: mpv answering time-pos 2 s ahead on an
     # abstract socket (no path, so no length limit); no socket, with the
     # soundtrack started a second ago; and no socket and no start time.
-    name = f"\0kmscon-showcase-test-{os.getpid()}"
+    name = f"\0bad-apple-vtium-test-{os.getpid()}"
     srv = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
     srv.bind(name)
     srv.listen(1)
@@ -867,8 +870,8 @@ def kitty_checks(root):
               and b"f=100" in got, repr(got[:200]))
         st, got, pid = fx_kitty("--seconds", "0.3", "--transport", "shm", "--width", "64",
                                 answer=b"\x1b_Gi=7500;OK\x1b\\\x1b[?62;4c")
-        left = [n for n in os.listdir("/dev/shm") if n.startswith(f"kmscon-showcase-{pid}-")
-                or n.startswith(f"kmscon-showcase-probe-{pid}-")]
+        left = [n for n in os.listdir("/dev/shm") if n.startswith(f"bad-apple-vtium-{pid}-")
+                or n.startswith(f"bad-apple-vtium-probe-{pid}-")]
         check("shm taken by the probe: frames go by t=s, and no object outlives the player",
               os.waitstatus_to_exitcode(st) == 0 and got.count(b"t=s") > 3 and not left, f"{left} {got[:200]!r}")
 
@@ -877,7 +880,7 @@ def kitty_checks(root):
         for sig in (signal.SIGTERM, signal.SIGHUP):
             st, got, pid = fx_kitty("--seconds", "20", "--transport", "shm", "--width", "64", kill=sig,
                                     answer=b"\x1b_Gi=7500;OK\x1b\\\x1b[?62;4c")
-            left = [n for n in os.listdir("/dev/shm") if n.startswith(f"kmscon-showcase-{pid}-")]
+            left = [n for n in os.listdir("/dev/shm") if n.startswith(f"bad-apple-vtium-{pid}-")]
             for n in left:
                 os.unlink("/dev/shm/" + n)
             check(f"{sig.name} ends fx.py kitty through its cleanup: images deleted, no shared memory left",

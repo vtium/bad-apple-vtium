@@ -157,7 +157,7 @@ def parser():
 
     p = cmd("shades", shades.cmd_shades, "the cats in sunglasses, between act 6 and act 7")
     p.add_argument("--kitty", action="store_true", help="kitty graphics; else emoji and text")
-    p.add_argument("--cache", default=os.path.expanduser("~/.cache/kmscon-showcase"))
+    p.add_argument("--cache", default=os.path.expanduser("~/.cache/bad-apple-vtium"))
     p.add_argument("--cell-w", type=int, default=10)
     p.add_argument("--cell-h", type=int, default=20)
     p.add_argument("--bpm", type=float, default=138, help="the music cue's tempo, which sets the beat")

@@ -103,7 +103,7 @@ class Encoder:
     shm writes each frame to /dev/shm (where Linux keeps POSIX shared memory
     objects; shm_open("/name") opens /dev/shm/name) under a new name."""
 
-    def __init__(self, transport, w, h, level=1, prefix="kmscon-showcase"):
+    def __init__(self, transport, w, h, level=1, prefix="bad-apple-vtium"):
         if transport not in TRANSPORTS:
             raise ValueError(f"no transport {transport!r}: {', '.join(TRANSPORTS)}")
         self.transport, self.w, self.h, self.level = transport, w, h, level
@@ -179,7 +179,7 @@ def unlink_shm(name):
 def query(transport):
     """The spec's a=q of one pixel in this transport, which loads and checks
     the data without storing it."""
-    e = Encoder(transport, 1, 1, prefix="kmscon-showcase-probe")
+    e = Encoder(transport, 1, 1, prefix="bad-apple-vtium-probe")
     frame = b"\0" if transport == "png" else b"\0\0\0"
     cmd = e.transmit(QUERY_ID, frame).replace(f"a=t,i={QUERY_ID},q=2", f"a=q,i={QUERY_ID}", 1)
     return cmd, e
@@ -187,9 +187,9 @@ def query(transport):
 
 def probe(transport, timeout=1.0):
     """True when the terminal loads a pixel through this transport: an a=q
-    answered OK before its answer to DA1. A terminal that refuses the medium
-    (kmscon reads no shared memory for a session outside logind) answers
-    with an error, and one without the protocol answers DA1 alone."""
+    answered OK before its answer to DA1. A terminal that refuses the medium,
+    as one may refuse shared memory, answers with an error, and one without
+    the protocol answers DA1 alone."""
     cmd, e = query(transport)
     try:
         out(cmd + f"{ESC}[c")

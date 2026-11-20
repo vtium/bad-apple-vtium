@@ -2,8 +2,8 @@
 # Asks where a demo's sound plays, and prints mpv's name for the output on
 # stdout, or none for no sound; the questions go to the terminal on stderr
 # and stdin. The Bad Apple!! showcase runs it before act 1 when --audio is
-# given (README.md, Sound). Copied from kmscon's fork/demo/pick-audio.sh
-# (commit cca86bed), which kmscon's make vt-login still runs; the two
+# given (README.md, Sound). Copied from fork/demo/pick-audio.sh in the
+# kmscon fork at https://github.com/aaronsb/kmscon (commit cca86bed); the two
 # copies may drift.
 #
 #   pick-audio.sh            lists the outputs and asks

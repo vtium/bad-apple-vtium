@@ -97,10 +97,11 @@ class Shadebobs:
 class CJKStream:
     """Lines of CJK ideographs scrolled up a region of the screen, the
     terminal doing the scrolling: a stress of the parser, the glyph cache
-    and the scroll. The ideographs are the glyph kit's (ideographs.py, a
-    copy of kmscon's fork/demo/glyph-text.py's), drawn by Zipf's law from
-    a seeded pool, so every run sends the same text; each line opens with
-    its number. blow() then blows the lines on the screen away."""
+    and the scroll. The ideographs come from ideographs.py, a copy of the
+    pool in fork/demo/glyph-text.py of the kmscon fork. They are drawn by
+    Zipf's law from a seeded pool, so every run sends the same text; each
+    line opens with its number. blow() then blows the lines on the screen
+    away."""
 
     PER_FRAME = 3  # lines a frame: 120 a second at 40 fps
 
