@@ -1,4 +1,4 @@
-"""The interlude between act 6's cats and act 7 (#75): a row of big cat
+"""The interlude between act 6's cats and act 7: a row of big cat
 faces in kitty graphics, pixel sunglasses dropping onto them one a beat
 from left to right, then the row sliding off the left edge.
 

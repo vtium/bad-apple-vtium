@@ -1,4 +1,4 @@
-"""The video acts' frame caches and their player (#75).
+"""The video acts' frame caches and their player.
 
 prep-outline (act 1's ASCII line art), prep-dots (act 1's Braille pass) and
 prep-caca (act 3's libcaca frames) render a stretch of the operator's video

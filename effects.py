@@ -1,4 +1,4 @@
-"""The classic demo effects of the showcase (#75), in truecolor glyphs.
+"""The classic demo effects of the showcase, in truecolor glyphs.
 
 Half blocks (▀ with a 24-bit foreground and background) make each cell two
 pixels: 384x108 at the operator's 384x54 cells. Braille (U+2800 to U+28FF)

@@ -1,4 +1,4 @@
-"""Big letters as pixels (#75): toilet's block fonts (drawn with ▀ ▄ █) read
+"""Big letters as pixels: toilet's block fonts (drawn with ▀ ▄ █) read
 back into half-block pixel rows, so letters can be scaled, coloured and laid
 over an effect, with figlet's banner font as the fallback. toilet and figlet
 are run as programs; without either, the callers fall back to plain text.

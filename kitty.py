@@ -1,6 +1,9 @@
-"""Act 7's video player (#75): Bad Apple!! through the kitty graphics
-protocol, written from its published spec alone
-(https://sw.kovidgoyal.net/kitty/graphics-protocol/, ADR-300's clean room).
+"""Act 7's video player: Bad Apple!! through the kitty graphics protocol,
+written from its published spec alone
+(https://sw.kovidgoyal.net/kitty/graphics-protocol/). kitty is under the
+GPL-3.0 and this code is under MIT, so nobody reads kitty's source while
+working on this player. kitty as a running program serves only to compare
+the player's output from outside.
 
 ffmpeg decodes the clip small, and each frame is transmitted once and placed
 up to three times, each copy a placement (p=1, 2, 3) scaled up by the

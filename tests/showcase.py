@@ -4,7 +4,7 @@ the media tools: its act and effect tables (--list), its plan (--dry-run),
 its refusals, that every act listed has its function, and the pure helpers
 the acts draw with (screen.py, frames.py, effects.py and act 5's sizing in
 bad-apple.sh), and, on a pty, that quitting turns off every mode a player
-may have left on (#88). Act 7's kitty player (kitty.py) runs on a pty with
+may have left on. Act 7's kitty player (kitty.py) runs on a pty with
 stand-ins for ffmpeg and ffprobe, its output replayed on a model of the
 kitty graphics protocol's image store, and act 6's interlude (shades.py)
 with a stand-in for rsvg-convert.
@@ -177,7 +177,7 @@ def main():
         # While a player runs, keys are read through a filter that drops the
         # mouse reports mpv's tracking sends, whole or split across reads,
         # and keeps q as quit; after it, the modes go off and what the
-        # terminal had already sent is read through the same filter (#88).
+        # terminal had already sent is read through the same filter.
         def keys(code, feed):
             pid, fd = pty.fork()
             if pid == 0:
@@ -240,7 +240,7 @@ def main():
               f"{p.stdout.strip()} bytes in {took:.2f} s {p.stderr}")
 
         # Quitting turns off mouse tracking and the other report modes a
-        # killed mpv leaves on (#88). Act 4 needs python3 alone.
+        # killed mpv leaves on. Act 4 needs python3 alone.
         pid, fd = pty.fork()
         if pid == 0:
             os.execve("/bin/bash", ["bash", script, "--act", "4", "--no-wait"], env)
@@ -313,7 +313,7 @@ PULSE_LIST = """List of detected audio devices:
   'alsa' (Default (alsa))
 """
 
-# PipeWire with no sink but its dummy, as when it lost the sound cards (#171).
+# PipeWire with no sink but its dummy, as when it lost the sound cards.
 SINKLESS_LIST = """List of detected audio devices:
   'auto' (Autoselect device)
   'pipewire' (Default (pipewire))
@@ -398,7 +398,7 @@ def picker_checks(root):
         check("every cue the show starts has its .ogg and its Strudel source",
               started and all(os.path.isfile(os.path.join(music, n + ext)) for n in started for ext in (".ogg", ".js")),
               " ".join(sorted(started)))
-        # A device name typed in place of a number is tried and kept (#207).
+        # A device name typed in place of a number is tried and kept.
         p = pick("pulse/typed.sink\ny\n")
         check("a device name typed at the list is tried and kept",
               p.returncode == 0 and p.stdout == "pulse/typed.sink\n" and "tone through pulse/typed.sink" in p.stderr,
@@ -408,8 +408,8 @@ def picker_checks(root):
               p.returncode == 0 and p.stdout == "none\n" and "tone through" not in p.stderr,
               p.stdout + p.stderr)
 
-        # No outputs (#207): one line says why, and a device name can still
-        # be typed. PipeWire with no sink but its dummy is #171's case, the
+        # No outputs: one line says why, and a device name can still be
+        # typed. PipeWire with no sink but its dummy stands for the sound
         # cards dropped by a PipeWire that started before the audio group.
         sinkless = os.path.join(tmp, "sinkless")
         with open(sinkless, "w") as f:

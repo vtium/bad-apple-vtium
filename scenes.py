@@ -1,4 +1,4 @@
-"""The showcase's scenes made of text and effects (#75): act 2's big letters
+"""The showcase's scenes made of text and effects: act 2's big letters
 over the plasma and shadebobs, act 7's scroller, the typed lines, the
 placeholders, the cats and the end card.
 """

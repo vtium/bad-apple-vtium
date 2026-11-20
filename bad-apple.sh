@@ -1,5 +1,5 @@
 #!/bin/bash
-# The Bad Apple!! showcase (#75): a demoscene homage that plays Bad Apple!!
+# The Bad Apple!! showcase: a demoscene homage that plays Bad Apple!!
 # through each rendering layer a terminal has, each act running into the limit
 # of the last. See README.md.
 #
@@ -8,8 +8,8 @@
 #
 # --list prints the acts and effects and what each needs; --dry-run prints
 # the plan and the tools each act would use, and runs nothing. --prepare
-# renders the frame caches of the video acts ahead of a run (make showcase
-# does it before it takes the VT). --fx runs one effect alone (--list names
+# renders the frame caches of the video acts ahead of a run, so that the
+# show starts at once. --fx runs one effect alone (--list names
 # them) and reports its frame rate and bytes per frame. --banner-only makes
 # act 7 the scroller alone, which needs no video. --audio plays the
 # soundtrack with mpv, through an output it asks for first (AUDIO_DEVICE
@@ -138,10 +138,10 @@ cue() {
 # The scroller of act 7: what vtium supports, one feature per entry of
 # BANNER_FEATURES (separated by ;), each followed by the next emoji of
 # BANNER_EMOJI. Add a feature here when it lands.
-: "${BANNER_FEATURES:=styled and coloured underlines;strike;grapheme clusters;colour emoji;cell-exact box drawing;sixel;kitty graphics}"
+: "${BANNER_FEATURES:=styled and colored underlines;strike;grapheme clusters;color emoji;cell-exact box drawing;sixel;kitty graphics}"
 : "${BANNER_EMOJI:=〰️ ✂️ 🐈‍⬛ 🎨 🧱 🖼️ 🐱}"
 : "${BANNER_INTRO:=vtium, on the Linux console ✨ now with}"
-: "${BANNER_OUTRO:=greetings to ZUN, Alstroemeria Records, nomico and Anira 🍎 libtsm, mpv, ffmpeg, libcaca, libsixel and toilet 💾 see you on the console 🖥️}"
+: "${BANNER_OUTRO:=greetings to ZUN, Alstroemeria Records, nomico and Anira 🍎 mpv, ffmpeg, libcaca, libsixel, toilet, librsvg and Noto Emoji 💾 see you on the console 🖥️}"
 END_TEXT=${END_TEXT:-"Bad Apple!! - original by ZUN (Touhou Project), arrangement by Alstroemeria Records feat. nomico, shadow-art video by Anira"}
 
 # The act table: name, the programs it needs (a trailing ? marks one the
@@ -170,7 +170,7 @@ ACT_WHAT=(""
 	"\"this has got to beat ascii line art... how about ... AALIB?\" typed, then libcaca's img2txt in 80x25 at ${ACT3_FPS} fps (a real 80x25 grid where CSI 8;25;80 t takes, else a framed region), then it freezes, broken"
 	"\"wait a minute... don't we have ... LIBSIXEL?\" typed over the frozen frame"
 	"sixel (DA1 attribute 4): mpv --vo=sixel plays it ${ACT5_SIZE} of the screen's height, sized from the cell size the terminal reports (XTWINOPS 16), it glitches to one channel and tears, and its last frame stays; else a placeholder"
-	"a fire wipe uncovering a stream of CJK text that then fills the screen and blows away, \"hold on, we also have kitty. one sec, feeding the cats\", a crowd of colour cats, then big cat faces in a row in kitty graphics (emoji without), pixel sunglasses dropping onto each, sliding off as act 7 fades in"
+	"a fire wipe uncovering a stream of CJK text that then fills the screen and blows away, \"hold on, we also have kitty. one sec, feeding the cats\", a crowd of color cats, then big cat faces in a row in kitty graphics (emoji without), pixel sunglasses dropping onto each, sliding off as act 7 fades in"
 	"kitty graphics (a=q): each frame transmitted once and placed up to three times (kitty.py), one copy in the middle that slides left, then a second and a third sliding out from behind it, until the end card's cue, above a scroller of vtium's features over copper bars; else a placeholder above the scroller; --banner-only: the scroller alone")
 LAST_ACT=7
 
@@ -422,7 +422,7 @@ pause() { fx pause "$1"; }
 
 clear_screen() { printf '%s[0m%s[2J%s[H' "$E" "$E" "$E"; }
 
-# The modes a player may leave on (#88): mpv's video outputs turn on mouse
+# The modes a player may leave on: mpv's video outputs turn on mouse
 # tracking (CSI ?1003 h) and turn it off only when they exit cleanly, so a
 # player that is killed leaves the terminal reporting every mouse movement.
 # Every report mode and encoding, focus events and bracketed paste go off.
@@ -477,8 +477,8 @@ wait_bg() {
 	wait "$1" 2>/dev/null || true
 }
 
-# After a player stops: turns its mouse tracking off, in case it did not
-# (#88), and hides the cursor, which mpv's video outputs show when they exit,
+# After a player stops: turns its mouse tracking off, in case it did not,
+# and hides the cursor, which mpv's video outputs show when they exit,
 # so the acts after it never draw with it on. Then reads what the terminal
 # sent before that took effect through take_key, until 0.2 s pass with no
 # input and no partial report, or stdin ends (1 s at most), so no report

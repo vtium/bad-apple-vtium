@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""The drawing commands of bad-apple.sh (#75).
+"""The drawing commands of bad-apple.sh.
 
 Everything that draws more than a line of text runs through here: the video
 acts' frame caches and their player (frames.py), act 7's kitty graphics

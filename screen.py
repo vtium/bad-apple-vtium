@@ -1,4 +1,4 @@
-"""The terminal side of the showcase's drawing (#75): output, keys, the
+"""The terminal side of the showcase's drawing: output, keys, the
 window size, colours, and the two painters every effect draws through.
 
 Each frame is one os.write(), so a frame never interleaves with another
