@@ -1,7 +1,8 @@
 """The ideograph pool the CJK stream of act 6 draws from (effects.py).
 
-Copied from kmscon's fork/demo/glyph-text.py (commit cca86bed), whose glyphs
-kit draws the same pool; the two copies may drift.
+Copied from fork/demo/glyph-text.py in the kmscon fork at
+https://github.com/aaronsb/kmscon (commit cca86bed). That script draws the
+same pool, and the two copies may drift.
 """
 
 

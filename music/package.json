@@ -1,5 +1,5 @@
 {
-  "name": "kmscon-showcase-music",
+  "name": "bad-apple-vtium-music",
   "private": true,
   "description": "Renders the Bad Apple!! showcase's music cues from Strudel to .ogg (render.mjs)",
   "type": "module",

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""The drawing commands of bad-apple.sh (#75).
+"""The drawing commands of bad-apple.sh.
 
 Everything that draws more than a line of text runs through here: the video
 acts' frame caches and their player (frames.py), act 7's kitty graphics
@@ -157,7 +157,7 @@ def parser():
 
     p = cmd("shades", shades.cmd_shades, "the cats in sunglasses, between act 6 and act 7")
     p.add_argument("--kitty", action="store_true", help="kitty graphics; else emoji and text")
-    p.add_argument("--cache", default=os.path.expanduser("~/.cache/kmscon-showcase"))
+    p.add_argument("--cache", default=os.path.expanduser("~/.cache/bad-apple-vtium"))
     p.add_argument("--cell-w", type=int, default=10)
     p.add_argument("--cell-h", type=int, default=20)
     p.add_argument("--bpm", type=float, default=138, help="the music cue's tempo, which sets the beat")

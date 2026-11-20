@@ -2,8 +2,8 @@
 # Asks where a demo's sound plays, and prints mpv's name for the output on
 # stdout, or none for no sound; the questions go to the terminal on stderr
 # and stdin. The Bad Apple!! showcase runs it before act 1 when --audio is
-# given (README.md, Sound). Copied from kmscon's fork/demo/pick-audio.sh
-# (commit cca86bed), which kmscon's make vt-login still runs; the two
+# given (README.md, Sound). Copied from fork/demo/pick-audio.sh in the
+# kmscon fork at https://github.com/aaronsb/kmscon (commit cca86bed); the two
 # copies may drift.
 #
 #   pick-audio.sh            lists the outputs and asks
@@ -20,7 +20,7 @@
 # take (mpv --audio-device=help lists them) is tried with the same tone, and
 # any other answer asks again. When the
 # sound cards are out of reach, as on a VT that is no logind session for a
-# user outside the audio group (#171), it says so first, with the fix. When
+# user outside the audio group, it says so first, with the fix. When
 # it finds no output, one line says why, and a device name can be typed.
 set -u
 
@@ -35,10 +35,10 @@ if [ -n "${AUDIO_DEVICE:-}" ]; then
 fi
 exec 3>&1 1>&2
 
-# Who can open the sound cards. On the VT run-vt.sh gives a demo, the session
-# is no logind session, so while it is on screen logind lets nobody open the
-# cards (/dev/snd) through their ACLs, and PipeWire, which opens them for the
-# user, drops them; only the audio group opens them then. A process holds the
+# Who can open the sound cards. On a VT whose login has no logind session,
+# logind lets nobody open the cards (/dev/snd) through their ACLs while that
+# VT is on screen, and PipeWire, which opens them for the user, drops them;
+# only the audio group opens them then. A process holds the
 # groups its login had when it started, so joining the group takes a new
 # login, and PipeWire's, which the user's service manager starts, takes a
 # logout of every session. cards: there are cards; open: this script opens
@@ -86,7 +86,7 @@ cards_note() {
 		echo "VT, past logind's seat rule."
 	fi
 	echo "Until then, pick a Bluetooth output below or 0 for no sound, or run this from"
-	echo "a login on a VT (make vt-login), which holds the cards while it is on screen."
+	echo "a login on a VT that logind manages, which holds the cards while it is on screen."
 	echo
 }
 
@@ -101,7 +101,7 @@ why_none() {
 	elif [ -n "$in_login" ] && [ -n "$pw" ] && [ -z "$pw_audio" ]; then
 		echo "your PipeWire started before you joined the audio group, so it cannot open the sound cards: log out of every session (or reboot) and log in again"
 	elif [ -z "$open" ] && [ -n "$gid" ] && [ -z "$in_login" ]; then
-		echo "the sound cards are out of reach on a VT that is no logind session, and you are not in the audio group: sudo usermod -aG audio $me and log in again, or run this from a login on a VT (make vt-login)"
+		echo "the sound cards are out of reach on a VT that is no logind session, and you are not in the audio group: sudo usermod -aG audio $me and log in again, or run this from a login on a VT that logind manages"
 	else
 		echo "no sound server's output and no ALSA card in mpv --audio-device=help"
 	fi

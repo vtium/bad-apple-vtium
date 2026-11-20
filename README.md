@@ -176,7 +176,7 @@ The cue sheet sets where each video act starts and stops. Every other timing is 
 | `SIXEL`, `KITTY` | auto | `yes` or `no` overrides the terminal's answer |
 | `PROBE_TIMEOUT` | 1 | how long the show waits for the terminal's answers |
 | `FX_SECONDS` | 10 | how long `--fx` runs |
-| `SHOWCASE_CACHE` | `~/.cache/kmscon-showcase` | where the frame caches go |
+| `SHOWCASE_CACHE` | `~/.cache/bad-apple-vtium` | where the frame caches go |
 
 ## The effects
 
@@ -234,7 +234,7 @@ With `--audio`, the frames follow the soundtrack. The player reads mpv's positio
 | `ideographs.py` | the pool of ideographs for the CJK stream |
 | `tests/showcase.py` | the tests |
 
-The frame caches go to `~/.cache/kmscon-showcase/<video id>/`, and `SHOWCASE_CACHE` moves them. A cache is keyed by the video's path, size and modification time, and by each act's settings. A cache made for one grid size is not reused for another: act 1's grids and act 3's framed region shrink in a smaller terminal and render again there.
+The frame caches go to `~/.cache/bad-apple-vtium/<video id>/`, and `SHOWCASE_CACHE` moves them. A cache is keyed by the video's path, size and modification time, and by each act's settings. A cache made for one grid size is not reused for another: act 1's grids and act 3's framed region shrink in a smaller terminal and render again there.
 
 ## Tests
 
