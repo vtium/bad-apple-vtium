@@ -16,7 +16,7 @@
 # names one and skips the question). --no-wait starts without waiting for a
 # key. The cue sheet below sets where each video act starts and stops.
 #
-# The video is never downloaded: BAD_APPLE names the operator's own copy.
+# The video is never downloaded: BAD_APPLE names your own copy of it.
 # q or Ctrl-C ends the show at any point and restores the terminal.
 set -euo pipefail
 
